@@ -1,12 +1,18 @@
 import { useState } from 'react'
 import './App.css'
+import Calculator from './components/calculator';
+import MemoryGame from './components/memogygame';
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-      
+      <div>
+        <Calculator />
+      </div>
+      <div>
+        <MemoryGame />
+      </div>
     </>
   )
 }
