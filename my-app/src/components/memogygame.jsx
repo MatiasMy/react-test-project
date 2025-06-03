@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 
 function MemoryGame() {
-    const [show, setShow] = useState(true);
-
-    const imageUrls = [
+    const initialImages = [
         { "url": './public/rasberry.svg', "id": 1 },
         { "url": './public/rasberry.svg', "id": 2 },
         { "url": './public/apple.svg', "id": 3 },
@@ -30,33 +28,72 @@ function MemoryGame() {
         { "url": './public/pineapple.svg', "id": 24 }
     ];
 
-    const shuffleArray = (imageUrls) => {
-        for (let i = imageUrls.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [imageUrls[i], imageUrls[j]] = [imageUrls[j], imageUrls[i]];
-        }
-        return imageUrls;
-    }
+    const [imageUrls, setImageUrls] = useState(initialImages);
+    const [flipped, setFlipped] = useState(Array(initialImages.length).fill(false));
+    const [selected, setSelected] = useState([]);
 
-    const handleButtonClick = (child) => {
-        console.log(child.id);
+    const shuffleArray = (arr) => {
+        const array = [...arr];
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
     };
 
+    const handleStartGame = () => {
+        setImageUrls(shuffleArray(imageUrls));
+        setFlipped(Array(imageUrls.length).fill(false));
+        setSelected([]);
+    };
+
+    const handleButtonClick = (idx) => {
+        if (flipped[idx] || selected.length === 2) return;
+
+        const newSelected = [...selected, idx];
+        const newFlipped = [...flipped];
+        newFlipped[idx] = true;
+        setFlipped(newFlipped);
+        setSelected(newSelected);
+
+        if (newSelected.length === 2) {
+            const [firstIdx, secondIdx] = newSelected;
+            if (imageUrls[firstIdx].url !== imageUrls[secondIdx].url) {
+                setTimeout(() => {
+                    setFlipped(prev => {
+                        const resetFlipped = [...prev];
+                        resetFlipped[firstIdx] = false;
+                        resetFlipped[secondIdx] = false;
+                        return resetFlipped;
+                    });
+                    setSelected([]);
+                }, 1000);
+            } else {
+                setTimeout(() => setSelected([]), 500);
+            }
+        }
+    };
 
     return (
-        <div>
+        <>
             <div className="memorygameheader">
-                <h1>Memory Game</h1>
+                <h1 onClick={handleStartGame}>Memory Game</h1>
             </div>
             <div className="memorygamedisplay">
-                {imageUrls.map((child) => (
-                    <div key={child.id} className="memorygamebutton" onClick={() => handleButtonClick(child)}>
-                        <button>{show ? <img src={child.url} width="80" alt="Memory Game" /> : <img src="./public/questionmark.svg" width="80" alt="Memory Game" />}</button>
+                {imageUrls.map((child, idx) => (
+                    <div key={child.id} className="memorygamebutton">
+                        <button onClick={() => handleButtonClick(idx)} disabled={flipped[idx]}>
+                            {flipped[idx] ? (
+                                <img src={child.url} width="80" alt="Memory Game" />
+                            ) : (
+                                <img src="./public/questionmark.svg" width="80" alt="Hidden" />
+                            )}
+                        </button>
                     </div>
                 ))}
             </div>
-            <button onClick={() => shuffleArray(imageUrls)}>Start Game</button> shuflaa kortit shuffleArraylla 
-        </div>
+            <hr />
+        </>
     );
 }
 

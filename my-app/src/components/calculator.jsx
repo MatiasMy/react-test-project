@@ -27,6 +27,7 @@ function Calculator() {
     };
 
     return (
+        <>
         <div className="calculator">
             <div className="calculatorheader">
                 <h1>Calculator</h1>
@@ -44,6 +45,8 @@ function Calculator() {
                 </div>
             ))}
         </div>
+        <hr />
+    </>
     );
 }
 
