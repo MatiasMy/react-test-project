@@ -28,11 +28,11 @@ function MemoryGame() {
         { "url": './public/pineapple.svg', "id": 24 }
     ];
 
-    const [imageUrls, setImageUrls] = useState(initialImages);
-    const [flipped, setFlipped] = useState(Array(initialImages.length).fill(false));
-    const [selected, setSelected] = useState([]);
+    const [imageUrls, setImageUrls] = useState<{url: string, id: number}[]>(initialImages);
+    const [flipped, setFlipped] = useState<boolean[]>(Array(initialImages.length).fill(false));
+    const [selected, setSelected] = useState<number[]>([]);
 
-    const shuffleArray = (arr) => {
+    const shuffleArray = (arr: typeof initialImages) => {
         const array = [...arr];
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -42,13 +42,13 @@ function MemoryGame() {
     };
 
     const handleStartGame = () => {
-        setImageUrls(shuffleArray(imageUrls));
-        setFlipped(Array(imageUrls.length).fill(false));
+        setImageUrls(shuffleArray(initialImages));
+        setFlipped(Array(initialImages.length).fill(false));
         setSelected([]);
     };
 
-    const handleButtonClick = (idx) => {
-        if (flipped[idx] || selected.length === 2) return;
+    const handleButtonClick = (idx: number) => {
+        if (flipped[idx] || selected.includes(idx) || selected.length === 2) return;
 
         const newSelected = [...selected, idx];
         const newFlipped = [...flipped];
@@ -82,12 +82,13 @@ function MemoryGame() {
             <div className="memorygamedisplay">
                 {imageUrls.map((child, idx) => (
                     <div key={child.id} className="memorygamebutton">
-                        <button onClick={() => handleButtonClick(idx)} disabled={flipped[idx]}>
-                            {flipped[idx] ? (
-                                <img src={child.url} width="80" alt="Memory Game" />
-                            ) : (
-                                <img src="./public/questionmark.svg" width="80" alt="Hidden" />
-                            )}
+                        <button
+                            onClick={() => handleButtonClick(idx)}
+                            disabled={flipped[idx] || selected.length === 2}
+                        >
+                            {flipped[idx] ? 
+                                <img src={child.url} width="80" alt="Memory Game" /> : 
+                                <img src="./public/questionmark.svg" width="80" alt="Hidden" />}
                         </button>
                     </div>
                 ))}
