@@ -4,8 +4,8 @@ function Calculator() {
     const [display, setDisplay] = useState('');
     const [result, setResult] = useState(null);
 
-    const handleButtonClick = (value) => {
-        if (!isNaN(value)) {
+    const handleButtonClick = (value: string) => {
+        if (value === '0' || value === '1' || value === '2' || value === '3' || value === '4' || value === '5' || value === '6' || value === '7' || value === '8' || value === '9') {
             setDisplay((prev) => prev + value);
         } else if (value === '+' || value === '-' || value === '*' || value === '/') {
             if (display) {
@@ -19,7 +19,7 @@ function Calculator() {
                 const evalResult = eval(display);
                 setResult(evalResult);
             } catch (error) {
-                setResult('Error');
+                setResult(null);
             }
         } else {
             console.error('Invalid button value:', value);
