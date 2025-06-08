@@ -2,21 +2,15 @@ import React, { use, useEffect } from 'react';
 import './App.css';
 import Calculator from './components/calculator';
 import MemoryGame from './components/memogygame';
+import Login from './components/login';
 
 function App() {
-  useEffect(() => {
-    fetch("http://localhost:8081/users")
-      .then(response => response.json())
-      .then(data => {
-        console.log("Users:", data);
-      })
-      .catch(error => {
-        console.error("Error fetching users:", error);
-      });
-  }, []);
   return (
     <>
       <header>React Test Projects</header>
+      <div>
+        <Login />
+      </div>
       <div>
         <Calculator />
       </div>

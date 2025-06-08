@@ -4,27 +4,26 @@ const cors = require('cors');
 
 const app = express()
 app.use(cors());
+app.use(express.json());
 
-const db = mysql.createConnection({
+const db = mysql.createConnection({ //db ei toimi, koska se on tässä tiedostossa
     host: "localhost",
     user: "root",
     password: "",
     database: "react_test_project"
 })
 
+var loginRouter = require("./routes/loginRouter");
+
+
+app.use("/login", loginRouter);
+
 app.get("/", (req, res) => {
     return res.json({ message: "Hello from the backend!" });
 })
 
-app.get("/users", (req, res) => {
-    db.query("SELECT * FROM users", (err, results) => {
-        if (err) {
-            return res.status(500).json({ error: "Database query failed" });
-        }
-        return res.json(results);
-    });
-});
-
 app.listen(8081, () => {
     console.log("Server is running on port 8081");
 });
+
+module.exports.db = db;
