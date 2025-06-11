@@ -10,13 +10,14 @@ function UserList() {
       .then(data => setUsers(data))
       .catch(err => console.error(err));
   }, []);
+  console.log(users);
 
   return (
     <div>
       <h2>User List</h2>
       <ul>
-        {users.map((user: { id: number; username: string }) => (
-          <li key={user.id}>{user.username}</li>
+        {users.map((user: { id: number; name: string }) => (
+          <li key={user.id}>{user.name}</li>
         ))}
       </ul>
     </div>
