@@ -6,7 +6,6 @@ run: npm run dev
 open http://localhost:5173/ in broser
 
 OPEN BACKEND:
-
 open terminal
 run: cd backend
 run: npm start
