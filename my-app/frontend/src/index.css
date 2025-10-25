@@ -74,6 +74,13 @@ body {
   cursor: pointer;
 }
 
-.loginelement{
-  
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 200px;
+}
+
+.login-child{
+  margin-left: 35%;
 }
