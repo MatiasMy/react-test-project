@@ -1,5 +1,6 @@
 header{
   padding: 10px;
+  padding-bottom: 30px;
   text-align: center;
   color: rgb(0, 0, 0);
   font-family: "Rubik", sans-serif;
@@ -83,4 +84,22 @@ body {
 
 .login-child{
   margin-left: 35%;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  color: rgb(0, 0, 0);
+  padding-bottom: 30px;
+}
+
+footer button {
+  margin-left: 10px;
+}
+
+.logres-but {
+  margin-top: 10px;
+  margin-left: 43%;
+  min-width: 125px;
 }
